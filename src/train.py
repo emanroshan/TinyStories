@@ -186,13 +186,18 @@ def train(args):
             print(message, flush=True)
 
         if should_checkpoint:
+            checkpoint_path = (
+                f"{args.checkpoint_path.rsplit('.', 1)[0]}"
+                f"_{completed_steps}.pt"
+            )
+
             save_checkpoint(
                 model,
                 optimizer,
                 completed_steps,
                 train_generator,
                 val_generator,
-                args.checkpoint_path,
+                checkpoint_path,
             )
 
 
@@ -248,7 +253,7 @@ def parse_args():
     parser.add_argument(
         "--checkpoint-interval",
         type=int,
-        default=500,
+        default=1000,
     )
     parser.add_argument(
         "--num-validation-batches",
